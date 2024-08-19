@@ -1,17 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Language Redirect</title>
-    <script src="main.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Language Chooser</title>
+<script src="main.js" defer></script>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  text-align: center;
+}
+
+.select-wrapper {
+  margin: 50px auto;
+  width: 200px;
+}
+
+#languageSelect {
+  padding: 10px;
+  width: 100%;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+}
+
+#languageSelect option {
+  background-color: #f0f0f0;
+}
+</style>
 </head>
 <body>
-    <h1>Welcome</h1>
-    <p>If you are not redirected, please choose your language manually.</p>
-    <ul>
-        <li><a href="./de/index_de.html">Deutsch</a></li>
-        <li><a href="./en/index_en.html">English</a></li>
-    </ul>
+
+<div class="select-wrapper">
+  <select id="languageSelect">
+    <option value="" disabled selected>Select a language</option>
+    <option value="de">Deutsch</option>
+    <option value="en">English</option>
+    <!-- Add more language options as needed -->
+  </select>
+</div>
+
+<div id="message" style="color: red; font-weight: bold">
+  <p></p>The selected language is not available. Please choose another language from the list above.</div></p>
+</div>
+
 </body>
 </html>
