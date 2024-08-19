@@ -19,8 +19,13 @@ This is the main HTML file that loads the JavaScript script `main.js`.
 <body>
     <h1>Welcome</h1>
     <p>If you are not redirected, please choose your language manually.</p>
+    <ul>
+        <li><a href="./de/index_de.html">Deutsch</a></li>
+        <li><a href="./en/index_en.html">English</a></li>
+    </ul>
 </body>
 </html>
+
 ```
 
 ### main.js
