@@ -27,37 +27,73 @@ This is the main HTML file that loads the JavaScript script `main.js`.
 This JavaScript script reads the browser's language and redirects accordingly.
 
 ```js
+// Define language paths for different languages
+const languagePaths = {
+  de: './de/index.html',
+  en: './en-us/index.html',
+  nl: './nl/index.html',
+  fr: './fr/index.html',
+  hu: './hu/index.html',
+  pt: './pt/index.html',
+  it: './it/index.html',
+  es: './es/index.html',
+  // ... more languages
+};
+
+// Function to get the primary language code without regional specifications
 function getBrowserLanguage() {
-    const lang = navigator.language || navigator.userLanguage;
-    const language = lang.split('-')[0]; // Use only the part before the hyphen
-    return language;
+  const lang = navigator.language || navigator.userLanguage;
+  return lang.split('-')[0];
 }
 
-function redirectBasedOnLanguage() {
-    const language = getBrowserLanguage();
-    let redirectUrl = '';
+// Function to redirect based on the selected language
+function redirectBasedOnLanguage(language) {
+  if (languagePaths.hasOwnProperty(language)) {
+    const testUrl = languagePaths[language];
 
-    switch(language) {
-        case 'de':
-            redirectUrl = './de/index_de.html'; // Relative path to the German page
-            break;
-        case 'en':
-        case 'en-US': // Check for English variants
-        case 'en-GB':
-        case 'en-AU':
-            redirectUrl = './en/index_en.html'; // Relative path to the English page
-            break;
-        default:
-            redirectUrl = './index.html'; // Default page
-            break;
-    }
-
-    window.location.href = redirectUrl; // Redirect
+    // Check if the URL exists using fetch
+    fetch(testUrl)
+      .then(response => {
+        if (response.ok) {
+          const timeoutDuration = 3000; // 3 seconds
+          const redirectTimer = setTimeout(() => {
+            console.error(`Error: Redirect timeout for ${language}. Redirecting to default language.`);
+            alert(`Redirect timeout for ${language}. Redirecting to default language.`);
+            window.location.href = languagePaths.de; // Redirect to default language (German)
+          }, timeoutDuration);
+          
+          window.location.href = testUrl; // Try to redirect and clear the timeout if successful
+          clearTimeout(redirectTimer);
+        } else {
+          console.error(`Error: Language ${language} path not found. Redirecting to default language.`);
+          alert(`Language ${language} not available. Redirecting to default language.`);
+          window.location.href = languagePaths.de; // Redirect to default language (German)
+        }
+      })
+      .catch(error => {
+        console.error(`Error fetching language ${language}: ${error.message}. Redirecting to default language.`);
+        alert(`Error fetching language ${language}. Redirecting to default language.`);
+        window.location.href = languagePaths.de; // Redirect to default language (German)
+      });
+  } else {
+    console.error(`Error: Language ${language} not found in the languagePaths object`);
+    alert(`Language ${language} not available. Redirecting to default language.`);
+    window.location.href = languagePaths.de; // Redirect to default language (German)
+  }
 }
 
-// Perform redirection on page load
-window.onload = function() {
-    redirectBasedOnLanguage();
+// Event listener for changes in language selection
+const languageSelect = document.getElementById('languageSelect');
+
+languageSelect.addEventListener('change', () => {
+  const selectedLanguage = languageSelect.value;
+  redirectBasedOnLanguage(selectedLanguage);
+});
+
+// Initialize the redirection when the page loads
+window.onload = () => {
+  const initialLanguage = getBrowserLanguage();
+  redirectBasedOnLanguage(initialLanguage);
 };
 ```
 
@@ -65,3 +101,16 @@ window.onload = function() {
 1. Create the directories and files as described above.
 2. Ensure your live server is running and accessing the folder.
 3. Open index.html in your browser to test the language redirection.
+
+## How it works
+The code is a JavaScript file that implements a function for redirecting based on the selected language.
+
+1. `languagePaths`: An object that contains paths for different languages.
+2. `getBrowserLanguage()`: A function that returns the primary language code without regional specifications.
+3. `redirectBasedOnLanguage(language)`: A function that performs redirection based on the selected language.
+4. The code uses the Fetch API to check if the language URL exists.
+5. A timeout of 3 seconds is set to control the redirection.
+6. An event listener is added to monitor changes in the language selection.
+7. Upon page load, the initial language is determined, and the redirection is carried out accordingly.
+
+The code ensures that users are redirected to the appropriate language page based on their language selection. If the selected language is not available, a redirection to the default page (German) occurs.
