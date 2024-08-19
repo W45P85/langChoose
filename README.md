@@ -1,24 +1,21 @@
 <div align="center">
 <pre>
-  _____  ____ __  __  _           _   _  _____  __  __  _     
- |_   _|| __ )\ \/ / | |_  ___   | | | ||_   _||  \/  || |    
-   | |  |  _ \ \  /  | __|/ _ \  | |_| |  | |  | |\/| || |    
-   | |  | |_) |/  \  | |_| (_) | |  _  |  | |  | |  | || |___ 
-   |_|  |____//_/\_\  \__|\___/  |_| |_|  |_|  |_|  |_||_____|
-                                                              
+ _                     ___ _                          
+| | __ _ _ __   __ _  / __\ |__   ___   ___  ___  ___ 
+| |/ _` | '_ \ / _` |/ /  | '_ \ / _ \ / _ \/ __|/ _ \
+| | (_| | | | | (_| / /___| | | | (_) | (_) \__ \  __/
+|_|\__,_|_| |_|\__, \____/|_| |_|\___/ \___/|___/\___|
+               |___/                                  
 <br>
-Welcome to the TBX to HTML Converter! 🎉 This handy tool takes your TBX files
-and transforms them into beautiful, readable HTML files. Whether you're a terminology
-enthusiast or just someone who loves well-organized data, this tool is here to make your
-life easier.
+Note: This code needs to be tested in a server-client environment to avoid the following error: 
+Cross-Origin Request Blocked: The Same-Origin Policy disallows reading the external resource. 
+(Reason: CORS request not http). This is a security error.
 </pre>
 </div>
 
 
 # Language Redirect Demo
 This repository contains a simple example of language redirection based on the browser's language settings. The redirection is implemented using JavaScript and works in Chrome, Firefox, and Edge.
-
-Note: This code needs to be tested in a server-client environment to avoid the following error: Cross-Origin Request Blocked: The Same-Origin Policy disallows reading the external resource. (Reason: CORS request not http).
 
 ## Files
 
