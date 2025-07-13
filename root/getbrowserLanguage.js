@@ -75,4 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
       redirectBasedOnLanguage(selectedLanguage);
     });
   }
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 5080a745a1732abf290e75a33cb35e0b7f299372

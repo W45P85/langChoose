@@ -47,74 +47,72 @@ This is the main HTML file that loads the JavaScript script `main.js`.
 This JavaScript script reads the browser's language and redirects accordingly.
 
 ```js
-// Define language paths for different languages
+// Mapping of language codes to the respective language pages (relative paths)
 const languagePaths = {
-  de: './de/index.html',
-  en: './en-us/index.html',
-  nl: './nl/index.html',
-  fr: './fr/index.html',
-  hu: './hu/index.html',
-  pt: './pt/index.html',
-  it: './it/index.html',
-  es: './es/index.html',
-  // ... more languages
+  de: './de/index.html',
+  en: './en-us/index.html',
+  nl: './nl/index.html',
+  fr: './fr/index.html',
+  hu: './hu/index.html',
+  pt: './pt/index.html',
+  it: './it/index.html',
+  es: './es/index.html',
+  // ... more languages
 };
 
-// Function to get the primary language code without regional specifications
 function getBrowserLanguage() {
-  const lang = navigator.language || navigator.userLanguage;
-  return lang.split('-')[0];
+  const lang = navigator.language || navigator.userLanguage;
+  return lang.split('-')[0];
 }
 
-// Function to redirect based on the selected language
+// Executes a redirect to the appropriate language page, if available
 function redirectBasedOnLanguage(language) {
-  if (languagePaths.hasOwnProperty(language)) {
-    const testUrl = languagePaths[language];
+  const fallbackUrl = languagePaths.de;
 
-    // Check if the URL exists using fetch
-    fetch(testUrl)
-      .then(response => {
-        if (response.ok) {
-          const timeoutDuration = 3000; // 3 seconds
-          const redirectTimer = setTimeout(() => {
-            console.error(`Error: Redirect timeout for ${language}. Redirecting to default language.`);
-            alert(`Redirect timeout for ${language}. Redirecting to default language.`);
-            window.location.href = languagePaths.de; // Redirect to default language (German)
-          }, timeoutDuration);
-          
-          window.location.href = testUrl; // Try to redirect and clear the timeout if successful
-          clearTimeout(redirectTimer);
-        } else {
-          console.error(`Error: Language ${language} path not found. Redirecting to default language.`);
-          alert(`Language ${language} not available. Redirecting to default language.`);
-          window.location.href = languagePaths.de; // Redirect to default language (German)
-        }
-      })
-      .catch(error => {
-        console.error(`Error fetching language ${language}: ${error.message}. Redirecting to default language.`);
-        alert(`Error fetching language ${language}. Redirecting to default language.`);
-        window.location.href = languagePaths.de; // Redirect to default language (German)
-      });
-  } else {
-    console.error(`Error: Language ${language} not found in the languagePaths object`);
-    alert(`Language ${language} not available. Redirecting to default language.`);
-    window.location.href = languagePaths.de; // Redirect to default language (German)
-  }
+  // Check whether the language is available in the mapping
+  if (!languagePaths.hasOwnProperty(language)) {
+    console.warn(`Language ${language} not supported. Redirecting to default.`);
+    window.location.href = fallbackUrl;
+    return;
+  }
+
+  const testUrl = languagePaths[language];
+
+  // HEAD request to verify if file exists
+  fetch(testUrl, { method: 'HEAD' })
+    .then(response => {
+      if (response.ok) {
+        // Page exists - forwarding
+        window.location.href = testUrl;
+      } else {
+        // Page does not exist - fallback
+        console.warn(`Page for ${language} not found. Redirecting to default.`);
+        window.location.href = fallbackUrl;
+      }
+    })
+    .catch(error => {
+      // Error retrieving the page - fallback
+      console.error(`Fetch error for ${language}: ${error.message}`);
+      window.location.href = fallbackUrl;
+    });
 }
 
-// Event listener for changes in language selection
-const languageSelect = document.getElementById('languageSelect');
-
-languageSelect.addEventListener('change', () => {
-  const selectedLanguage = languageSelect.value;
-  redirectBasedOnLanguage(selectedLanguage);
-});
-
-// Initialize the redirection when the page loads
+// On page load: automatic redirection based on the browser language
 window.onload = () => {
-  const initialLanguage = getBrowserLanguage();
-  redirectBasedOnLanguage(initialLanguage);
+  const initialLanguage = getBrowserLanguage();
+  redirectBasedOnLanguage(initialLanguage);
 };
+
+// Event listener for a manual language dropdown
+document.addEventListener('DOMContentLoaded', () => {
+  const languageSelect = document.getElementById('languageSelect');
+  if (languageSelect) {
+    languageSelect.addEventListener('change', () => {
+      const selectedLanguage = languageSelect.value;
+      redirectBasedOnLanguage(selectedLanguage);
+    });
+  }
+});
 ```
 
 ### Usage
