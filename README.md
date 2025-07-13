@@ -14,7 +14,7 @@ Cross-Origin Request Blocked: The Same-Origin Policy disallows reading the exter
 </div>
 
 
-# Language Redirect Demo
+# Language Redirect
 This repository contains a simple example of language redirection based on the browser's language settings. The redirection is implemented using JavaScript and works in Chrome, Firefox, and Edge.
 
 ## Files
